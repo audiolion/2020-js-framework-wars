@@ -1,0 +1,18 @@
+{
+  "scripts": {
+    "prepare": "snowpack",
+    "start": "snowpack dev",
+    "build": "snowpack build",
+    "test": "echo \"This template does not include a test runner by default.\" && exit 1"
+  },
+  "webDependencies": {},
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4",
+    "snowpack": "^2.0.0-0"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  }
+}
