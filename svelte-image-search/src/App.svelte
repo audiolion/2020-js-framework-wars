@@ -1,30 +1,63 @@
 <script>
-	export let name;
+  import getImages from "./api";
+
+  let loading = false;
+  let images = [];
+  let searchTerm = "";
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    loading = true;
+
+    images = await getImages(searchTerm);
+
+    loading = false;
+  }
 </script>
 
-<main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
-
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
+  .images {
+    column-count: 3;
+  }
 
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
+  img {
+    width: 100%;
+  }
 
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
+  @media (max-width: 1200px) {
+    .images {
+      column-count: 2;
+    }
+  }
+
+  @media (max-width: 800px) {
+    .images {
+      column-count: 1;
+    }
+  }
 </style>
+
+<div class="app">
+  <h1>Svelte Image Search</h1>
+  <form on:submit={handleSubmit}>
+    <label for="searchTerm">Search Term</label>
+    <input
+      class="u-full-width"
+      type="text"
+      id="searchTerm"
+      name="searchTerm"
+      bind:value={searchTerm} />
+    <button type="submit">Search</button>
+  </form>
+
+  {#if loading}
+    <img id="loadingImage" src="https://i.imgur.com/LVHmLnb.gif" />
+  {/if}
+
+  <section class="images">
+    {#each images as image}
+      <img src={image} />
+    {/each}
+  </section>
+</div>
